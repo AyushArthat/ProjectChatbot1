@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Scraper and QA</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 5px;
+            width: 100%;
+        }
+        #result {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Web Scraper and Question Answering</h1>
+    <form id="scrape-form">
+        <input type="url" id="url" placeholder="Enter website URL" required>
+        <input type="text" id="question" placeholder="Enter your question" required>
+        <button type="submit">Scrape and Answer</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#scrape-form').submit(function(e) {
+                e.preventDefault();
+                var url = $('#url').val();
+                var question = $('#question').val();
+
+                $.ajax({
+                    url: '/scrape_and_answer',
+                    method: 'POST',
+                    data: {
+                        url: url,
+                        question: question
+                    },
+                    success: function(response) {
+                        $('#result').text(JSON.stringify(response, null, 2));
+                    },
+                    error: function(xhr, status, error) {
+                        $('#result').text('Error: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
